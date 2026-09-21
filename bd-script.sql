@@ -5,21 +5,16 @@ SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
 
 -- -----------------------------------------------------
--- Schema mydb
--- -----------------------------------------------------
--- -----------------------------------------------------
 -- Schema voltix
 -- -----------------------------------------------------
 
--- -----------------------------------------------------
--- Schema voltix
--- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `voltix` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci ;
-USE `voltix` ;
+CREATE SCHEMA IF NOT EXISTS `voltix` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
+USE `voltix`;
 
 -- -----------------------------------------------------
 -- Table `voltix`.`empresa`
 -- -----------------------------------------------------
+
 CREATE TABLE IF NOT EXISTS `voltix`.`empresa` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `cnpj` CHAR(14) NOT NULL,
@@ -29,7 +24,8 @@ CREATE TABLE IF NOT EXISTS `voltix`.`empresa` (
   `atualizado_em` DATETIME NULL DEFAULT NULL,
   `deletado_em` DATETIME NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE INDEX `cnpj_unique` (`cnpj` ASC) VISIBLE)
+  UNIQUE INDEX `cnpj_unique` (`cnpj` ASC) VISIBLE
+)
 ENGINE = InnoDB
 AUTO_INCREMENT = 2
 DEFAULT CHARACTER SET = utf8mb4
@@ -39,6 +35,7 @@ COLLATE = utf8mb4_0900_ai_ci;
 -- -----------------------------------------------------
 -- Table `voltix`.`instancia`
 -- -----------------------------------------------------
+
 CREATE TABLE IF NOT EXISTS `voltix`.`instancia` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `aplicacao_id` INT NOT NULL,
@@ -52,9 +49,10 @@ CREATE TABLE IF NOT EXISTS `voltix`.`instancia` (
   INDEX `fk_instancia_empresa1_idx` (`empresa_id` ASC) VISIBLE,
   CONSTRAINT `fk_instancia_empresa1`
     FOREIGN KEY (`empresa_id`)
-    REFERENCES `microhub`.`empresa` (`id`)
+    REFERENCES `voltix`.`empresa` (`id`)
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON UPDATE NO ACTION
+)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
@@ -63,6 +61,7 @@ COLLATE = utf8mb4_0900_ai_ci;
 -- -----------------------------------------------------
 -- Table `voltix`.`alerta`
 -- -----------------------------------------------------
+
 CREATE TABLE IF NOT EXISTS `voltix`.`alerta` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `prioridade` TINYINT NOT NULL COMMENT 'definir tipos',
@@ -75,7 +74,8 @@ CREATE TABLE IF NOT EXISTS `voltix`.`alerta` (
   INDEX `fk_alerta_instancia_idx` (`instancia_id` ASC) VISIBLE,
   CONSTRAINT `fk_alerta_instancia`
     FOREIGN KEY (`instancia_id`)
-    REFERENCES `microhub`.`instancia` (`id`))
+    REFERENCES `voltix`.`instancia` (`id`)
+)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
@@ -84,6 +84,7 @@ COLLATE = utf8mb4_0900_ai_ci;
 -- -----------------------------------------------------
 -- Table `voltix`.`codigo_ativacao`
 -- -----------------------------------------------------
+
 CREATE TABLE IF NOT EXISTS `voltix`.`codigo_ativacao` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `empresa_id` INT NOT NULL,
@@ -99,7 +100,8 @@ CREATE TABLE IF NOT EXISTS `voltix`.`codigo_ativacao` (
   INDEX `fk_codigo_empresa_idx` (`empresa_id` ASC) VISIBLE,
   CONSTRAINT `fk_codigo_empresa`
     FOREIGN KEY (`empresa_id`)
-    REFERENCES `microhub`.`empresa` (`id`))
+    REFERENCES `voltix`.`empresa` (`id`)
+)
 ENGINE = InnoDB
 AUTO_INCREMENT = 2
 DEFAULT CHARACTER SET = utf8mb4
@@ -109,10 +111,12 @@ COLLATE = utf8mb4_0900_ai_ci;
 -- -----------------------------------------------------
 -- Table `voltix`.`componente`
 -- -----------------------------------------------------
+
 CREATE TABLE IF NOT EXISTS `voltix`.`componente` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `tipo` VARCHAR(100) NOT NULL,
-  PRIMARY KEY (`id`))
+  PRIMARY KEY (`id`)
+)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
@@ -121,6 +125,7 @@ COLLATE = utf8mb4_0900_ai_ci;
 -- -----------------------------------------------------
 -- Table `voltix`.`usuario`
 -- -----------------------------------------------------
+
 CREATE TABLE IF NOT EXISTS `voltix`.`usuario` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `empresa_id` INT NOT NULL,
@@ -136,7 +141,8 @@ CREATE TABLE IF NOT EXISTS `voltix`.`usuario` (
   INDEX `fk_usuario_empresa_idx` (`empresa_id` ASC) VISIBLE,
   CONSTRAINT `fk_usuario_empresa`
     FOREIGN KEY (`empresa_id`)
-    REFERENCES `microhub`.`empresa` (`id`))
+    REFERENCES `voltix`.`empresa` (`id`)
+)
 ENGINE = InnoDB
 AUTO_INCREMENT = 2
 DEFAULT CHARACTER SET = utf8mb4
@@ -146,6 +152,7 @@ COLLATE = utf8mb4_0900_ai_ci;
 -- -----------------------------------------------------
 -- Table `voltix`.`contato`
 -- -----------------------------------------------------
+
 CREATE TABLE IF NOT EXISTS `voltix`.`contato` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `email` VARCHAR(45) NOT NULL,
@@ -157,7 +164,8 @@ CREATE TABLE IF NOT EXISTS `voltix`.`contato` (
   INDEX `fk_contato_usuario_idx` (`usuario_id` ASC) VISIBLE,
   CONSTRAINT `fk_contato_usuario`
     FOREIGN KEY (`usuario_id`)
-    REFERENCES `microhub`.`usuario` (`id`))
+    REFERENCES `voltix`.`usuario` (`id`)
+)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
@@ -166,6 +174,7 @@ COLLATE = utf8mb4_0900_ai_ci;
 -- -----------------------------------------------------
 -- Table `voltix`.`especificacao`
 -- -----------------------------------------------------
+
 CREATE TABLE IF NOT EXISTS `voltix`.`especificacao` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `componente_id` INT NOT NULL,
@@ -174,7 +183,8 @@ CREATE TABLE IF NOT EXISTS `voltix`.`especificacao` (
   INDEX `fk_expecificacao` (`componente_id` ASC) VISIBLE,
   CONSTRAINT `fk_expecificacao`
     FOREIGN KEY (`componente_id`)
-    REFERENCES `microhub`.`componente` (`id`))
+    REFERENCES `voltix`.`componente` (`id`)
+)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
@@ -183,6 +193,7 @@ COLLATE = utf8mb4_0900_ai_ci;
 -- -----------------------------------------------------
 -- Table `voltix`.`metrica`
 -- -----------------------------------------------------
+
 CREATE TABLE IF NOT EXISTS `voltix`.`metrica` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `instancia_id` INT NOT NULL,
@@ -199,10 +210,11 @@ CREATE TABLE IF NOT EXISTS `voltix`.`metrica` (
   INDEX `fk_componente_metrica` (`especificacao_id` ASC) VISIBLE,
   CONSTRAINT `fk_componente_metrica`
     FOREIGN KEY (`especificacao_id`)
-    REFERENCES `microhub`.`especificacao` (`id`),
+    REFERENCES `voltix`.`especificacao` (`id`),
   CONSTRAINT `fk_instancia_metrica`
     FOREIGN KEY (`instancia_id`)
-    REFERENCES `microhub`.`instancia` (`id`))
+    REFERENCES `voltix`.`instancia` (`id`)
+)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
