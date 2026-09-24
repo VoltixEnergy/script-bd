@@ -186,4 +186,4 @@ INSERT INTO empresa (id, cnpj, nome_fantasia, razao_social)
 VALUES (1, '11111111111111', 'Voltix Energy', 'Voltix Energy Solucoes em Energia LTDA');
 
 INSERT INTO usuario (id, nome, email, cargo, senha, empresa_id) 
-VALUES (1, 'Administrador', 'adm@voltix.com', 0, SHA2('teste123', 256), 1);
+VALUES (1, 'Administrador', 'adm@voltix.com', 1, SHA2('teste123', 256), 1);
