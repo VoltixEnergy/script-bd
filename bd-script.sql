@@ -152,7 +152,7 @@ CREATE TABLE IF NOT EXISTS usuario (
     nome VARCHAR(120) NOT NULL,
     cargo TINYINT NOT NULL,
     email VARCHAR(120) NOT NULL,
-    senha BLOB NOT NULL,
+    senha CHAR(60) NOT NULL,
     criado_em DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     atualizado_em DATETIME,
     deletado_em DATETIME,
@@ -189,7 +189,7 @@ VALUES ("f5ae3d95-02da-49f6-ba72-4a3913bb6c67", '11111111111111', 'Voltix Energy
 
 
 INSERT INTO usuario (id, nome, email, cargo, senha, empresa_id) 
-VALUES ("f5ae3d95-02da-49f6-ba72-4a3913bjoiu7", 'Administrador', 'adm@voltix.com', 1, SHA2('teste123', 256), "f5ae3d95-02da-49f6-ba72-4a3913bb6c67");
+VALUES ("f5ae3d95-02da-49f6-ba72-4a3913bjoiu7", 'Administrador', 'adm@voltix.com', 1, "$2b$10$IBoCzR2boWD5D0XyP267t..iooiGUDrKw6FWnRe.BPPktduDgBxT.", "f5ae3d95-02da-49f6-ba72-4a3913bb6c67"); -- senha do usuário é teste123
 -- -----------------------------------------------------
 -- INSERINDO COMPONENTES
 -- -----------------------------------------------------
