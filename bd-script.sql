@@ -12,7 +12,7 @@ USE voltix;
 -- -----------------------------------------------------
 
 CREATE TABLE IF NOT EXISTS empresa (
-    id INT NOT NULL AUTO_INCREMENT,
+    id CHAR(36) NOT NULL,
     cnpj CHAR(14) NOT NULL,
     razao_social VARCHAR(90),
     nome_fantasia VARCHAR(60),
@@ -30,10 +30,10 @@ CREATE TABLE IF NOT EXISTS empresa (
 -- -----------------------------------------------------
 
 CREATE TABLE IF NOT EXISTS instancia (
-    id INT NOT NULL AUTO_INCREMENT,
+    id CHAR(36) NOT NULL,
     endereco_mac CHAR(12) NOT NULL,
     descricao TEXT NOT NULL,
-    empresa_id INT NOT NULL,
+    empresa_id CHAR(36) NOT NULL,
     criado_em DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     status_instancia BOOLEAN NOT NULL DEFAULT 1,
     deletado_em DATETIME,
@@ -51,7 +51,7 @@ CREATE TABLE IF NOT EXISTS instancia (
 -- -----------------------------------------------------
 
 CREATE TABLE IF NOT EXISTS componente (
-    id INT NOT NULL AUTO_INCREMENT,
+    id CHAR(36) NOT NULL,
     tipo VARCHAR(100) NOT NULL,
 
     PRIMARY KEY (id)
@@ -63,8 +63,8 @@ CREATE TABLE IF NOT EXISTS componente (
 -- -----------------------------------------------------
 
 CREATE TABLE IF NOT EXISTS especificacao (
-    id INT NOT NULL AUTO_INCREMENT,
-    componente_id INT NOT NULL,
+    id CHAR(36) NOT NULL,
+    componente_id CHAR(36) NOT NULL,
     nome VARCHAR(120) NOT NULL,
 
     PRIMARY KEY (id),
@@ -79,9 +79,9 @@ CREATE TABLE IF NOT EXISTS especificacao (
 -- -----------------------------------------------------
 
 CREATE TABLE IF NOT EXISTS metrica (
-    id INT NOT NULL AUTO_INCREMENT,
-    instancia_id INT NOT NULL,
-    especificacao_id INT NOT NULL,
+    id CHAR(36) NOT NULL,
+    instancia_id CHAR(36) NOT NULL,
+    especificacao_id CHAR(36) NOT NULL,
     maximo DOUBLE(8,2) NULL,
     minimo DOUBLE(8,2) NULL,
     unidade_medida VARCHAR(20) NOT NULL,
@@ -104,8 +104,8 @@ CREATE TABLE IF NOT EXISTS metrica (
 -- -----------------------------------------------------
 
 CREATE TABLE IF NOT EXISTS alerta (
-    id INT NOT NULL AUTO_INCREMENT,
-    metrica_id INT NOT NULL,
+    id CHAR(36) NOT NULL,
+    metrica_id CHAR(36) NOT NULL,
     prioridade TINYINT NOT NULL,
     tipo VARCHAR(45),
     descricao TEXT,
@@ -124,8 +124,8 @@ CREATE TABLE IF NOT EXISTS alerta (
 -- -----------------------------------------------------
 
 CREATE TABLE IF NOT EXISTS codigo_ativacao (
-    id INT NOT NULL AUTO_INCREMENT,
-    empresa_id INT NOT NULL,
+    id CHAR(36) NOT NULL,
+    empresa_id CHAR(36) NOT NULL,
     codigo CHAR(6) NOT NULL,
     cargo TINYINT NOT NULL,
     criado_em DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -147,8 +147,8 @@ CREATE TABLE IF NOT EXISTS codigo_ativacao (
 -- -----------------------------------------------------
 
 CREATE TABLE IF NOT EXISTS usuario (
-    id INT NOT NULL AUTO_INCREMENT,
-    empresa_id INT NOT NULL,
+    id CHAR(36) NOT NULL,
+    empresa_id CHAR(36) NOT NULL,
     nome VARCHAR(120) NOT NULL,
     cargo TINYINT NOT NULL,
     email VARCHAR(120) NOT NULL,
@@ -170,10 +170,10 @@ CREATE TABLE IF NOT EXISTS usuario (
 -- -----------------------------------------------------
 
 CREATE TABLE IF NOT EXISTS contato (
-    id INT NOT NULL AUTO_INCREMENT,
+    id CHAR(36) NOT NULL,
     url TEXT NULL,
     email VARCHAR(100) NULL,
-    empresa_id INT NOT NULL,
+    empresa_id CHAR(36) NOT NULL,
     criado_em DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     atualizado_em DATETIME,
     deletado_em DATETIME,
@@ -185,33 +185,32 @@ CREATE TABLE IF NOT EXISTS contato (
 );
 
 INSERT INTO empresa (id, cnpj, nome_fantasia, razao_social) 
-VALUES (1, '11111111111111', 'Voltix Energy', 'Voltix Energy Solucoes em Energia LTDA');
+VALUES ("f5ae3d95-02da-49f6-ba72-4a3913bb6c67", '11111111111111', 'Voltix Energy', 'Voltix Energy Solucoes em Energia LTDA');
 
 
 INSERT INTO usuario (id, nome, email, cargo, senha, empresa_id) 
-VALUES (1, 'Administrador', 'adm@voltix.com', 1, SHA2('teste123', 256), 1);
-
+VALUES ("f5ae3d95-02da-49f6-ba72-4a3913bjoiu7", 'Administrador', 'adm@voltix.com', 1, SHA2('teste123', 256), "f5ae3d95-02da-49f6-ba72-4a3913bb6c67");
 -- -----------------------------------------------------
 -- INSERINDO COMPONENTES
 -- -----------------------------------------------------
 INSERT INTO componente (id, tipo) VALUES
-(1, 'CPU'),
-(2, 'Memória RAM'),
-(3, 'Disco Rigido'),
-(4, 'Rede');
+("f5ae3d95-02da-49f6-ba72-4a3913bb6c67", 'CPU'),
+("f5ae3d95-02da-49f6-ba72-4a3913bb6c68", 'Memória RAM'),
+("f5ae3d95-02da-49f6-ba72-4a3913bb6c69", 'Disco Rigido'),
+("f5ae3d95-02da-49f6-ba72-4a3913bb6c70", 'Rede');
 
 select * from componente;
 -- -----------------------------------------------------
 -- INSERINDO ESPECIFICAÇÕES DAS MÉTRICAS
 -- -----------------------------------------------------
 INSERT INTO especificacao (id, componente_id, nome) VALUES
-(1, 1, 'cpu_use_percent'),
-(2, 2, 'ram_total_gb'),
-(3, 2, 'ram_free_gb'),
-(4, 3, 'disk_free_percent'),
-(5, 4, 'network_sent'),
-(6, 4, 'network_received'),
-(7, 4, 'package_drop_total');
+("f5ae3d95-02da-49f6-ba72-4a3913bb6c67", "f5ae3d95-02da-49f6-ba72-4a3913bb6c67", 'cpu_use_percent'),
+("f5ae3d95-02da-49f6-ba72-4a3913bb6c68", "f5ae3d95-02da-49f6-ba72-4a3913bb6c68", 'ram_total_gb'),
+("f5ae3d95-02da-49f6-ba72-4a3913bb6c69", "f5ae3d95-02da-49f6-ba72-4a3913bb6c69", 'ram_free_gb'),
+("f5ae3d95-02da-49f6-ba72-4a3913bb6c70", "f5ae3d95-02da-49f6-ba72-4a3913bb6c70", 'disk_free_percent'),
+("f5ae3d95-02da-49f6-ba72-4a3913bb6c71", "f5ae3d95-02da-49f6-ba72-4a3913bb6c70", 'network_sent'),
+("f5ae3d95-02da-49f6-ba72-4a3913bb6c72", "f5ae3d95-02da-49f6-ba72-4a3913bb6c70", 'network_received'),
+("f5ae3d95-02da-49f6-ba72-4a3913bb6c73", "f5ae3d95-02da-49f6-ba72-4a3913bb6c70", 'package_drop_total');
 
 
 
@@ -219,28 +218,30 @@ ALTER TABLE instancia
 ADD COLUMN cenario VARCHAR(30);
 
 INSERT INTO instancia (
+    id,
     endereco_mac,
     descricao,
     empresa_id,
     cenario
 )
 VALUES (
+    'f5ae3d95-02da-49f6-ba72-4a3913bb6c67',
     '6432A89CD6CD',
     'Minha Maquina de Desenvolvimento',
-    1,
+    'f5ae3d95-02da-49f6-ba72-4a3913bb6c67',
     'NORMAL'
 );
 
 select * from instancia;
 
-INSERT INTO metrica (instancia_id, especificacao_id, maximo, minimo, unidade_medida) VALUES
-(1, 1, 100.00, 0.00, '%'),     -- cpu_use_percent
-(1, 2, 64.00, 0.00, 'GB'),     -- ram_total_gb
-(1, 3, 64.00, 0.00, 'GB'),     -- ram_free_gb
-(1, 4, 100.00, 0.00, '%'),     -- disk_free_percent
-(1, 5, 1000.00, 0.00, 'MB'),   -- network_sent
-(1, 6, 1000.00, 0.00, 'MB'),   -- network_received
-(1, 7, 100.00, 0.00, 'un');    -- package_drop_total
+INSERT INTO metrica (id, instancia_id, especificacao_id, maximo, minimo, unidade_medida) VALUES
+("f5ae3d95-02da-49f6-ba72-4a3913bb6c67", "f5ae3d95-02da-49f6-ba72-4a3913bb6c67", "f5ae3d95-02da-49f6-ba72-4a3913bb6c67", 100.00, 0.00, '%'),     -- cpu_use_percent
+("f5ae3d95-02da-49f6-ba72-4a3913bb6c68", "f5ae3d95-02da-49f6-ba72-4a3913bb6c67", "f5ae3d95-02da-49f6-ba72-4a3913bb6c68", 64.00, 0.00, 'GB'),     -- ram_total_gb
+("f5ae3d95-02da-49f6-ba72-4a3913bb6c69", "f5ae3d95-02da-49f6-ba72-4a3913bb6c67", "f5ae3d95-02da-49f6-ba72-4a3913bb6c69", 64.00, 0.00, 'GB'),     -- ram_free_gb
+("f5ae3d95-02da-49f6-ba72-4a3913bb6c70", "f5ae3d95-02da-49f6-ba72-4a3913bb6c67", "f5ae3d95-02da-49f6-ba72-4a3913bb6c70", 100.00, 0.00, '%'),     -- disk_free_percent
+("f5ae3d95-02da-49f6-ba72-4a3913bb6c71", "f5ae3d95-02da-49f6-ba72-4a3913bb6c67", "f5ae3d95-02da-49f6-ba72-4a3913bb6c71", 1000.00, 0.00, 'MB'),   -- network_sent
+("f5ae3d95-02da-49f6-ba72-4a3913bb6c72", "f5ae3d95-02da-49f6-ba72-4a3913bb6c67", "f5ae3d95-02da-49f6-ba72-4a3913bb6c72", 1000.00, 0.00, 'MB'),   -- network_received
+("f5ae3d95-02da-49f6-ba72-4a3913bb6c73", "f5ae3d95-02da-49f6-ba72-4a3913bb6c67", "f5ae3d95-02da-49f6-ba72-4a3913bb6c73", 100.00, 0.00, 'un');    -- package_drop_total
 
 
 SELECT
