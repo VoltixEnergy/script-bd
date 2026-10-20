@@ -1,6 +1,7 @@
 -- -----------------------------------------------------
 -- BANCO DE DADOS VOLTIX
 -- -----------------------------------------------------
+drop database voltix;
 CREATE SCHEMA IF NOT EXISTS voltix;
 USE voltix;
 
@@ -34,7 +35,8 @@ CREATE TABLE IF NOT EXISTS instancia (
   descricao TEXT NOT NULL,
   empresa_id CHAR(36) NOT NULL,
   criado_em DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  status_instancia BOOLEAN NOT NULL DEFAULT 1,
+  status boolean default true,
+  nome varchar(60),
   deletado_em DATETIME,
 
   PRIMARY KEY (id),
@@ -230,22 +232,17 @@ INSERT INTO especificacao (id, componente_id, nome) VALUES
 
 
 
-ALTER TABLE instancia
-ADD COLUMN cenario VARCHAR(30);
-
 INSERT INTO instancia (
     id,
     endereco_mac,
     descricao,
-    empresa_id,
-    cenario
+    empresa_id
 )
 VALUES (
     'f5ae3d95-02da-49f6-ba72-4a3913bb6c67',
     '6432A89CD6CD',
     'Minha Maquina de Desenvolvimento',
-    'f5ae3d95-02da-49f6-ba72-4a3913bb6c67',
-    'NORMAL'
+    'f5ae3d95-02da-49f6-ba72-4a3913bb6c67'
 );
 
 select * from instancia;
@@ -268,12 +265,6 @@ SELECT
 FROM metrica m
 JOIN especificacao e ON m.especificacao_id = e.id
 JOIN instancia i ON m.instancia_id = i.id
-WHERE i.id = 1
+WHERE i.id = 'f5ae3d95-02da-49f6-ba72-4a3913bb6c67'
   AND i.deletado_em IS NULL
   AND m.deletado_em IS NULL;
-  
-  
-  UPDATE instancia
-SET
-    cenario = 'ALTA_DEMANDA'
-WHERE id = 1;	
