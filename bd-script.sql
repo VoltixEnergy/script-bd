@@ -37,6 +37,7 @@ CREATE TABLE IF NOT EXISTS instancia (
   criado_em DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   status boolean default true,
   nome varchar(60),
+  atualizado_em DATETIME,
   deletado_em DATETIME,
 
   PRIMARY KEY (id),
@@ -223,9 +224,8 @@ select * from componente;
 -- -----------------------------------------------------
 INSERT INTO especificacao (id, componente_id, nome) VALUES
 ("f5ae3d95-02da-49f6-ba72-4a3913bb6c67", "f5ae3d95-02da-49f6-ba72-4a3913bb6c67", 'cpu_use_percent'),
-("f5ae3d95-02da-49f6-ba72-4a3913bb6c68", "f5ae3d95-02da-49f6-ba72-4a3913bb6c68", 'ram_total_gb'),
-("f5ae3d95-02da-49f6-ba72-4a3913bb6c69", "f5ae3d95-02da-49f6-ba72-4a3913bb6c69", 'ram_free_gb'),
-("f5ae3d95-02da-49f6-ba72-4a3913bb6c70", "f5ae3d95-02da-49f6-ba72-4a3913bb6c70", 'disk_free_percent'),
+("f5ae3d95-02da-49f6-ba72-4a3913bb6c68", "f5ae3d95-02da-49f6-ba72-4a3913bb6c68", 'ram_use_percent'),
+("f5ae3d95-02da-49f6-ba72-4a3913bb6c70", "f5ae3d95-02da-49f6-ba72-4a3913bb6c69", 'disk_use_percent'),
 ("f5ae3d95-02da-49f6-ba72-4a3913bb6c71", "f5ae3d95-02da-49f6-ba72-4a3913bb6c70", 'network_sent'),
 ("f5ae3d95-02da-49f6-ba72-4a3913bb6c72", "f5ae3d95-02da-49f6-ba72-4a3913bb6c70", 'network_received'),
 ("f5ae3d95-02da-49f6-ba72-4a3913bb6c73", "f5ae3d95-02da-49f6-ba72-4a3913bb6c70", 'package_drop_total');
@@ -240,7 +240,7 @@ INSERT INTO instancia (
 )
 VALUES (
     'f5ae3d95-02da-49f6-ba72-4a3913bb6c67',
-    '6432A89CD6CD',
+    '52540038C674',
     'Minha Maquina de Desenvolvimento',
     'f5ae3d95-02da-49f6-ba72-4a3913bb6c67'
 );
@@ -249,11 +249,10 @@ select * from instancia;
 
 INSERT INTO metrica (id, instancia_id, especificacao_id, maximo, minimo, unidade_medida) VALUES
 ("f5ae3d95-02da-49f6-ba72-4a3913bb6c67", "f5ae3d95-02da-49f6-ba72-4a3913bb6c67", "f5ae3d95-02da-49f6-ba72-4a3913bb6c67", 100.00, 0.00, '%'),     -- cpu_use_percent
-("f5ae3d95-02da-49f6-ba72-4a3913bb6c68", "f5ae3d95-02da-49f6-ba72-4a3913bb6c67", "f5ae3d95-02da-49f6-ba72-4a3913bb6c68", 64.00, 0.00, 'GB'),     -- ram_total_gb
-("f5ae3d95-02da-49f6-ba72-4a3913bb6c69", "f5ae3d95-02da-49f6-ba72-4a3913bb6c67", "f5ae3d95-02da-49f6-ba72-4a3913bb6c69", 64.00, 0.00, 'GB'),     -- ram_free_gb
+("f5ae3d95-02da-49f6-ba72-4a3913bb6c68", "f5ae3d95-02da-49f6-ba72-4a3913bb6c67", "f5ae3d95-02da-49f6-ba72-4a3913bb6c68", 64.00, 0.00, '%'),     -- ram_use_percent
 ("f5ae3d95-02da-49f6-ba72-4a3913bb6c70", "f5ae3d95-02da-49f6-ba72-4a3913bb6c67", "f5ae3d95-02da-49f6-ba72-4a3913bb6c70", 100.00, 0.00, '%'),     -- disk_free_percent
-("f5ae3d95-02da-49f6-ba72-4a3913bb6c71", "f5ae3d95-02da-49f6-ba72-4a3913bb6c67", "f5ae3d95-02da-49f6-ba72-4a3913bb6c71", 1000.00, 0.00, 'MB'),   -- network_sent
-("f5ae3d95-02da-49f6-ba72-4a3913bb6c72", "f5ae3d95-02da-49f6-ba72-4a3913bb6c67", "f5ae3d95-02da-49f6-ba72-4a3913bb6c72", 1000.00, 0.00, 'MB'),   -- network_received
+("f5ae3d95-02da-49f6-ba72-4a3913bb6c71", "f5ae3d95-02da-49f6-ba72-4a3913bb6c67", "f5ae3d95-02da-49f6-ba72-4a3913bb6c71", 1000.00, 0.00, 'Kb/s'),   -- network_sent
+("f5ae3d95-02da-49f6-ba72-4a3913bb6c72", "f5ae3d95-02da-49f6-ba72-4a3913bb6c67", "f5ae3d95-02da-49f6-ba72-4a3913bb6c72", 1000.00, 0.00, 'Kb/s'),   -- network_received
 ("f5ae3d95-02da-49f6-ba72-4a3913bb6c73", "f5ae3d95-02da-49f6-ba72-4a3913bb6c67", "f5ae3d95-02da-49f6-ba72-4a3913bb6c73", 100.00, 0.00, 'un');    -- package_drop_total
 
 
